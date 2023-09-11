@@ -1,5 +1,5 @@
 """
-URL configuration for mysite project.
+URL configuration for kioskadmin project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -16,7 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls import include
+from kiosksvc import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('oidc/', include('mozilla_django_oidc.urls')),
+    path("kioskconfig/", views.kiosk_config, name="kiosk_config"),
+    path("participants/", views.ParticipantView.as_view()),
+    path("checkin/", views.CheckInParticipant.as_view()),
+    path("checkin_passcode/", views.CheckInByCode.as_view()),
+    path("call_staff/", views.CallStaffView.as_view()),
 ]
