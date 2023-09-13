@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', False) == "True"
+DEBUG = True
 
-ALLOWED_HOSTS = [os.environ.get('APP_HOST', "http://localhost:8000")]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", os.environ.get('APP_HOST', "")]
 
 
 # Application definition
@@ -94,7 +94,7 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.getenv("DB_NAME",""),
+        "NAME": os.getenv("DB_NAME","kiosk"),
         "USER": os.getenv("DB_USER",""),
         "PASSWORD": os.getenv("DB_PASS",""),
         "HOST": os.getenv("DB_HOST",""),
