@@ -35,7 +35,7 @@ ALLOWED_HOSTS = [os.environ.get('APP_HOST', "http://localhost:8000")]
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
-    "mozilla_django_oidc",
+    # "mozilla_django_oidc",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
@@ -54,7 +54,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "mozilla_django_oidc.middleware.SessionRefresh",
+    # "mozilla_django_oidc.middleware.SessionRefresh",
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -93,12 +93,15 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ["DB_NAME"],
-        "USER": os.environ["DB_USER"],
-        "PASSWORD": os.environ["DB_PASS"],
-        "HOST": os.environ["DB_HOST"],
-        "PORT": os.environ["DB_PORT"],
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.getenv("DB_NAME",""),
+        "USER": os.getenv("DB_USER",""),
+        "PASSWORD": os.getenv("DB_PASS",""),
+        "HOST": os.getenv("DB_HOST",""),
+        "PORT": os.getenv("DB_PORT",""),
+        'TEST': {
+            'NAME': 'kiosktest',
+        },
     }
 }
 
@@ -147,14 +150,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Email Config
-EMAIL_HOST = os.environ["EMAIL_HOST"]
-EMAIL_PORT = os.environ["EMAIL_PORT"]
-EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]
-EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
-EMAIL_SENDER = os.environ["EMAIL_SENDER"]
-EMAIL_SENDER_NAME = os.environ["EMAIL_SENDER_NAME"]
-EMAIL_EVENT_NAME = os.environ["EMAIL_EVENT_NAME"]
-EMAIL_REPLY_TO = os.environ["EMAIL_REPLY_TO"]
+EMAIL_HOST = os.getenv("EMAIL_HOST", "")
+EMAIL_PORT = os.getenv("EMAIL_PORT", "")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
+EMAIL_SENDER = os.getenv("EMAIL_SENDER", "")
+EMAIL_SENDER_NAME = os.getenv("EMAIL_SENDER_NAME", "")
+EMAIL_EVENT_NAME = os.getenv("EMAIL_EVENT_NAME", "")
+EMAIL_REPLY_TO = os.getenv("EMAIL_REPLY_TO", "")
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', True) == "True"
 
 # OIDC Config
@@ -184,15 +187,15 @@ LOGOUT_REDIRECT_URL = "/admin/logout"
 
 # Key pair for Check-IN QR JWT
 CHECKIN_QR_CONFIG = {
-    "private_key_path": os.environ["CHECKIN_QR_JWT_PRIVATE_KEY_PATH"],
-    "public_key_path": os.environ["CHECKIN_QR_JWT_PUBLIC_KEY_PATH"],
-    "key_algo": os.environ["CHECKIN_QR_JWT_KEY_ALGO"],
+    "private_key_path": os.getenv("CHECKIN_QR_JWT_PRIVATE_KEY_PATH", "./sample.key"),
+    "public_key_path": os.getenv("CHECKIN_QR_JWT_PUBLIC_KEY_PATH", "./sample.key.pub"),
+    "key_algo": os.getenv("CHECKIN_QR_JWT_KEY_ALGO", "ES256"),
 }
 
 # APPEND_SLASH=False
 
 #WEBHOOK
 WEBHOOK_URLS = {
-    "public": os.environ["WEBHOOK_PUBLIC_URL"],
-    "organizer": os.environ["WEBHOOK_ORGANIZER_URL"],
+    "public": os.getenv("WEBHOOK_PUBLIC_URL", ""),
+    "organizer": os.getenv("WEBHOOK_ORGANIZER_URL", ""),
 }
