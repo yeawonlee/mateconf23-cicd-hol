@@ -58,9 +58,9 @@ MIDDLEWARE = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-    # 'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
     # 'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
-    "kioskadmin.oidc_auth.MyOIDCAuthBackend",
+    # "kioskadmin.oidc_auth.MyOIDCAuthBackend",
 ]
 
 ROOT_URLCONF = "kioskadmin.urls"
@@ -158,29 +158,29 @@ EMAIL_REPLY_TO = os.environ["EMAIL_REPLY_TO"]
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', True) == "True"
 
 # OIDC Config
-OIDC_CONFIG_BASEURL = os.environ["OIDC_CONFIG_BASEURL"]
-try:
-    oidc_document = requests.get(
-        f"{OIDC_CONFIG_BASEURL}/.well-known/openid-configuration"
-    ).json()
-    OIDC_OP_AUTHORIZATION_ENDPOINT = oidc_document["authorization_endpoint"]
-    OIDC_OP_TOKEN_ENDPOINT = oidc_document["token_endpoint"]
-    OIDC_OP_USER_ENDPOINT = oidc_document["userinfo_endpoint"]
-    OIDC_OP_JWKS_ENDPOINT = oidc_document["jwks_uri"]
-except requests.exceptions.ConnectionError:
-    print("Skipping configuration for OIDC! It won't work correctly")
-    OIDC_OP_AUTHORIZATION_ENDPOINT = None
-    OIDC_OP_TOKEN_ENDPOINT = None
-    OIDC_OP_USER_ENDPOINT = None
-    OIDC_OP_JWKS_ENDPOINT = None
+# OIDC_CONFIG_BASEURL = os.environ["OIDC_CONFIG_BASEURL"]
+# try:
+#     oidc_document = requests.get(
+#         f"{OIDC_CONFIG_BASEURL}/.well-known/openid-configuration"
+#     ).json()
+#     OIDC_OP_AUTHORIZATION_ENDPOINT = oidc_document["authorization_endpoint"]
+#     OIDC_OP_TOKEN_ENDPOINT = oidc_document["token_endpoint"]
+#     OIDC_OP_USER_ENDPOINT = oidc_document["userinfo_endpoint"]
+#     OIDC_OP_JWKS_ENDPOINT = oidc_document["jwks_uri"]
+# except requests.exceptions.ConnectionError:
+#     print("Skipping configuration for OIDC! It won't work correctly")
+#     OIDC_OP_AUTHORIZATION_ENDPOINT = None
+#     OIDC_OP_TOKEN_ENDPOINT = None
+#     OIDC_OP_USER_ENDPOINT = None
+#     OIDC_OP_JWKS_ENDPOINT = None
 
-OIDC_RP_SIGN_ALGO = "RS256"
-OIDC_RP_CLIENT_ID = os.environ["OIDC_RP_CLIENT_ID"]
-OIDC_RP_CLIENT_SECRET = os.environ["OIDC_RP_CLIENT_SECRET"]
+# OIDC_RP_SIGN_ALGO = "RS256"
+# OIDC_RP_CLIENT_ID = os.environ["OIDC_RP_CLIENT_ID"]
+# OIDC_RP_CLIENT_SECRET = os.environ["OIDC_RP_CLIENT_SECRET"]
 LOGIN_REDIRECT_URL = "/admin"
 LOGOUT_REDIRECT_URL = "/admin/logout"
-OIDC_CREATE_USER = True  # Disable Django User Automatic Creation from OIDC
-OIDC_USERNAME_ALGO = "kioskadmin.oidc_auth.generate_username"
+# OIDC_CREATE_USER = True  # Disable Django User Automatic Creation from OIDC
+# OIDC_USERNAME_ALGO = "kioskadmin.oidc_auth.generate_username"
 
 # Key pair for Check-IN QR JWT
 CHECKIN_QR_CONFIG = {
