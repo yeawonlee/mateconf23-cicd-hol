@@ -1,0 +1,22 @@
+name: Django App CI
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4 # Python 설치
+      with:
+        python-version: '3.11'
+    - run: pip install -r requirements.txt # 의존성 설치
+      name: 의존성 설치
+    - run: ruff check . # ruff 명령줄 추가
+      name: ruff 정적 분석 실행
+    - run: python manage.py test
+      name: 테스트 실행
+
