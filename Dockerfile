@@ -11,12 +11,12 @@ WORKDIR /app
 COPY . .
 
 RUN mkdir /app/static && \
-  pip install -r requirements.txt \
-  chmod u+x run.sh
+  pip install -r requirements.txt && \
+  chmod +x run.sh
   
 
 EXPOSE 8000
 
-ENTRYPOINT ["./run.sh"]
+ENTRYPOINT ["bash", "./run.sh"]
 # runs the production server
 CMD ["gunicorn", "-b", "0.0.0.0:8000", "kioskadmin.wsgi"]
