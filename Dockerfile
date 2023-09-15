@@ -11,7 +11,8 @@ WORKDIR /app
 COPY . .
 
 RUN mkdir /app/static && \
-  pip install -r requirements.txt 
+  pip install -r requirements.txt \
+  chmod u+x run.sh
   
 
 EXPOSE 8000
