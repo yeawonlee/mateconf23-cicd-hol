@@ -1,22 +1,21 @@
 name: Django App CI
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # 어떤 환경에서 실행할지 설정
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4 # Python 설치
-      with:
-        python-version: '3.11'
-    - run: pip install -r requirements.txt # 의존성 설치
-      name: 의존성 설치
-    - run: ruff check . # ruff 명령줄 추가
-      name: ruff 정적 분석 실행
-    - run: python manage.py test
-      name: 테스트 실행
-
+      - uses: actions/checkout@v3 # uses: 다른 사람이 만들어 놓은 거 가져다 쓰는 거
+      - uses: actions/setup-python@v4 # Python 설치
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt # 의존성 설치
+        name: 의존성 설치
+      - run: ruff check . # ruff 명령줄 추가
+        name: ruff 정적 분석 실행
+      - run: python manage.py test
+        name: 테스트 실행
