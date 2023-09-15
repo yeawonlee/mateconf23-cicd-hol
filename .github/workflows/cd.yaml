@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+env:
+  AZURE_WEBAPP_NAME: mateconfapp # 앱서비스 리소스 이름
 
 jobs:
   build:
@@ -28,3 +30,13 @@ jobs:
           push: true
           tags: mateconfholacr.azurecr.io/${{ secrets.ACR_USERNAME }}/kioskapp:${{ github.sha }}
           file: ./Dockerfile
+  deploy:
+    runs-on: "ubuntu-latest"
+    needs: build # build job 이 성공해야 실행 되도록 설정
+    steps:
+      - name: "Deploy to Azure Web App for Container"
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          images: mateconfholacr.azurecr.io/${{ secrets.ACR_USERNAME }}/kioskapp:${{ github.sha }}
+          publish-profile: ${{ secrets.AZAPP_PUB_PROFILE }}
